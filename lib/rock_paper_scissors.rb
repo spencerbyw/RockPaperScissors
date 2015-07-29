@@ -45,8 +45,12 @@ class RockPaperScissors
 				@score[:cpu] += 1
 			end
 			if check_score # See if someone's won yet
+				puts "game finished"
 				break
 			end
+			p @score
+			print "@cpu_won_last_round: "
+			p @cpu_won_last_round
 			round += 1
 		end
 	end
@@ -62,22 +66,29 @@ class RockPaperScissors
 
 		cpu_last_move = @cpu_moves.last
 		if @cpu_won_last_round == true
+			puts "@cpu_won_last_round == true"
 			case cpu_last_move
 			when 'rock' 	then cpu_move = 'scissors'
 			when 'paper' 	then cpu_move = 'rock'
 			when 'scissors' then cpu_move = 'paper'
 			end
 		elsif @cpu_won_last_round == false  # Assume for now no one has read the study
+			puts "@cpu_won_last_round == false"
 			case cpu_last_move
 			when 'rock' 	then cpu_move = 'scissors'
 			when 'paper'	then cpu_move = 'rock'
 			when 'scissors'	then cpu_move = 'paper'
 			end
 		end
+
 		@cpu_moves << cpu_move
 		result = rps_logic(player_move, cpu_move)
 		if result == :cpu 
-			@cpu_won_last_round == true
+			puts 'result == :cpu'
+			@cpu_won_last_round = true
+		else
+			puts 'else'
+			@cpu_won_last_round = false
 		end
 		return result
 
@@ -117,6 +128,11 @@ class RockPaperScissors
 				return :player 
 			end
 		end
+	end
+
+	def final_score
+		puts "THAT'S THE END, FOLKS."
+		p @score
 	end
 end
 
