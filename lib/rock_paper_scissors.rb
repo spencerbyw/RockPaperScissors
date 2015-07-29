@@ -45,6 +45,9 @@ class RockPaperScissors
 		while check_score == false
 			printf "Rock, Paper, or Scissors?: "
 			move = (gets.chomp.split(" "))[0]
+			if ['r', 'p', 's'].any? {|w| w == move} == true
+				move = short_hands(move)
+			end
 			result = evaluate_move(move)
 			result_layman = 'tie'
 			if result == :player
@@ -165,7 +168,7 @@ class RockPaperScissors
 		puts "|       PLAYER        |         CPU          |"
 		puts "|          #{@score[:player]}          |          #{@score[:cpu]}           |"
 		puts "----------------------------------------------"
-		puts "Type 'start' to play again!\n\n"
+		puts "Type 'start' to play again! (or 'q' to quit)\n\n"
 	end
 end
 

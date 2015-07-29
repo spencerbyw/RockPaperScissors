@@ -67,3 +67,12 @@ def random_destruction_word
 	words = ['crushed', 'destroyed', 'annihilated', 'euthanized', 'obliterated', 'smashed', 'pulverized', 'blasted', 'axed', 'roasted']
 	return words.shuffle.first
 end
+
+def short_hands(sh)
+	case sh
+	when 'r' then return 'rock'
+	when 'p' then return 'paper'
+	when 's' then return 'scissors'
+		
+	end
+end
