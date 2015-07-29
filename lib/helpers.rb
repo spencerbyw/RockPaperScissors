@@ -41,6 +41,29 @@ def mega_text(id)
 
 		EOS
 		puts welcome
-
+	elsif id == "victory"
+		message = <<-EOS
+ _   __ _       __                    __
+| | / /(_)____ / /_ ___   ____ __ __ / /
+| |/ // // __// __// _ \\ / __// // //_/ 
+|___//_/ \\__/ \\__/ \\___//_/   \\_, /(_)  
+                             /___/      
+		
+		EOS
+		puts message
+	elsif id == "defeat"
+		message = <<-EOS
+   ___        ___            __         
+  / _ \\ ___  / _/___  ___ _ / /_        
+ / // // -_)/ _// -_)/ _ `// __/_  _  _ 
+/____/ \\__//_/  \\__/ \\_,_/ \\__/(_)(_)(_)
+		
+		EOS
+		puts message
 	end
+end
+
+def random_destruction_word
+	words = ['crushed', 'destroyed', 'annihilated', 'euthanized', 'obliterated', 'smashed', 'pulverized', 'blasted', 'axed', 'roasted']
+	return words.shuffle.first
 end

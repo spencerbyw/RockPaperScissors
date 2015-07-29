@@ -40,7 +40,6 @@ class RockPaperScissors
 	end
 
 	def play_game
-		round = 0
 		reset_globals
 		move = ''
 		while check_score == false
@@ -54,16 +53,23 @@ class RockPaperScissors
 			elsif result == :cpu
 				@score[:cpu] += 1
 				result_layman = "CPU"
+			elsif result == 'invalid'
+				puts "No shotguns, nukes, or chainsaws please. Just rocks, papers, and scissors."
 			end
 			if check_score # See if someone's won yet
 				break
 			end
-			print_round_by_round_score(result_layman)
-			round += 1
+			if result != 'invalid'
+				print_round_by_round_score(result_layman)
+			end
 		end
 	end
 
 	def evaluate_move(player_move)
+		if @possible_moves.any? {|w| w == player_move} == false
+			puts "Fails in evaluate_move"
+			return 'invalid'
+		end
 		@player_moves << player_move
 		cpu_move = ''
 
@@ -100,21 +106,14 @@ class RockPaperScissors
 
 	def check_score
 		if @score[:player] >= 2
-			puts "You win!"
 			final_score
 			return true
 		elsif @score[:cpu] >= 2
-			puts "CPU beat you... :("
 			final_score
 			return true 
 		else
 			return false
 		end
-	end
-
-	def final_score
-		puts "THAT'S THE END, FOLKS."
-		p @score
 	end
 
 	def print_round_by_round_score(winner)
@@ -138,6 +137,35 @@ class RockPaperScissors
 		puts "|Current Score:    #{@score[:player]}          #{@score[:cpu]}        |"
 		puts "----------------------------------------"
 		puts ''
+	end
+
+	def final_score
+		puts ""
+		if @score[:player] >= 2
+			mega_text('victory')
+
+			winner = "Player"
+			loser = "CPU"
+			lose_move = @cpu_moves.last.upcase
+			win_move = @player_moves.last.upcase
+		elsif @score[:cpu] >= 2
+			mega_text('defeat')
+			
+			winner = "CPU"
+			loser = "Player"
+			lose_move = @player_moves.last.upcase
+			win_move = @cpu_moves.last.upcase
+		end
+		puts "----------------------------------------------"
+		puts "|                FINAL RESULTS               |"
+		puts "----------------------------------------------"
+		printf "%-#{45}s", "|  #{winner}'s #{win_move} #{random_destruction_word} #{loser}'s #{lose_move}!"
+		puts "|"
+		puts "----------------------------------------------"
+		puts "|       PLAYER        |         CPU          |"
+		puts "|          #{@score[:player]}          |          #{@score[:cpu]}           |"
+		puts "----------------------------------------------"
+		puts "Type 'start' to play again!\n\n"
 	end
 end
 
