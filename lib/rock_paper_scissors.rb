@@ -12,6 +12,7 @@ class RockPaperScissors
 		@possible_moves = ['rock', 'paper', 'scissors']
 		@score = {player: 0, cpu: 0}
 		@cpu_won_last_round
+		@consecutive_rounds_won = 0
 		puts " Done.\n\n"
 	end
 
@@ -109,10 +110,10 @@ class RockPaperScissors
 
 	def check_score
 		if @score[:player] >= 2
-			final_score
+			final_score(:player)
 			return true
 		elsif @score[:cpu] >= 2
-			final_score
+			final_score(:cpu)
 			return true 
 		else
 			return false
@@ -142,18 +143,20 @@ class RockPaperScissors
 		puts ''
 	end
 
-	def final_score
+	def final_score(victor)
 		puts ""
-		if @score[:player] >= 2
+		if victor == :player
 			mega_text('victory')
 
+			@consecutive_rounds_won += 1
 			winner = "Player"
 			loser = "CPU"
 			lose_move = @cpu_moves.last.upcase
 			win_move = @player_moves.last.upcase
-		elsif @score[:cpu] >= 2
+		elsif victor == :cpu
 			mega_text('defeat')
-			
+
+			@consecutive_rounds_won = 0
 			winner = "CPU"
 			loser = "Player"
 			lose_move = @player_moves.last.upcase
@@ -167,6 +170,9 @@ class RockPaperScissors
 		puts "----------------------------------------------"
 		puts "|       PLAYER        |         CPU          |"
 		puts "|          #{@score[:player]}          |          #{@score[:cpu]}           |"
+		puts "----------------------------------------------"
+		printf "%-#{45}s", "| Consecutive rounds won: #{@consecutive_rounds_won}"
+		puts "|"
 		puts "----------------------------------------------"
 		puts "Type 'start' to play again! (or 'q' to quit)\n\n"
 	end
